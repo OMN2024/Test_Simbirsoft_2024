@@ -1,10 +1,13 @@
 import os
 import time
-from selenium.webdriver.support.ui import Select
-
+import allure
+from allure_commons.types import AttachmentType
 from selenium.webdriver import Keys
-
 from .pages.main_page import MainPage
+
+@allure.feature('Open page')
+@allure.story('Открываем страницу demoqa.com')
+@allure.severity('trivial')
 def test_page(browser):
     link = "https://demoqa.com/automation-practice-form"
     page = MainPage(browser,link)
@@ -68,6 +71,8 @@ def test_page(browser):
     b_submit = page.button_submit()
     b_submit.click()
 
+    with allure.step('Делаем скриншот'):
+        allure.attach(page.browser.get_screenshot_as_png(), name='Screenshot', attachment_type=AttachmentType.PNG)
     time.sleep(3)
     page.get_final_screen()
 
